@@ -11,7 +11,7 @@ switch S.ParPort
         OpenParPort;
         
         % Set pp to 0
-        WriteParPort(0)
+        WriteParPort(0);
         
     case 'Off'
         

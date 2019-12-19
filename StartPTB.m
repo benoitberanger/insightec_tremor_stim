@@ -93,7 +93,7 @@ Screen('BlendFunction', PTB.wPtr, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 % B&W colors
 PTB.Black = BlackIndex( PTB.wPtr );
 PTB.White = WhiteIndex( PTB.wPtr );
-PTB.Gray  = () PTB.Black + PTB.White ) / 2;
+PTB.Gray  = ( PTB.Black + PTB.White ) / 2;
 
 % Text
 Screen('TextSize' , PTB.wPtr, round(S.Parameters.Text.SizeRatio * PTB.wRect(4)));

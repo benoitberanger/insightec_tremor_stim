@@ -19,3 +19,8 @@ Optimized for Windows & Linux, but should also work on iOS
 # Matlab/Octave
 MATLAB  : tested for R2017b  
 Octave  : GUI not available, Class definition is made for MATLAB but not for Octave  
+
+# How to use
+In MATLAB, go to the task code directory [...]/insightec_tremor/code, then execute `gui_insightec_tremor`  
+All informations should be visible and intuitive in the GUI.
+
