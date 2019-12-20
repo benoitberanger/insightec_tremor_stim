@@ -21,7 +21,8 @@ Parameters.Relax_nDec           = Parameters.Relax_nInc;
 Parameters.Relax_tInc           = 0.5;                   % seconds
 Parameters.Relax_tDec           = Parameters.Relax_tInc;
 Parameters.Relax_fontRatio      = 2;                     % font size ratio : it will start at X and finish at X*fontRatio
-Parameters.Relax_midDuration    = 6+[-1 +1];             % seconds
+Parameters.Relax_midDuration    = 6;                     % seconds
+Parameters.Relax_jitter         = [-1 +1];               % seconds
 
 Parameters.Posture_duration     = 30;                    % seconds
 
@@ -37,7 +38,7 @@ switch S.OperationMode
         
         Parameters.nDiscard             = 0;                     % integer, number of volume to discard
         
-        Parameters.nTrials              = 2;                     % integer
+        Parameters.nTrials              = 4;                     % integer
         
         Parameters.Instruction_duration = 1;                     % seconds
         
@@ -45,8 +46,9 @@ switch S.OperationMode
         Parameters.Relax_nDec           = Parameters.Relax_nInc;
         Parameters.Relax_tInc           = 0.2;                   % seconds
         Parameters.Relax_tDec           = Parameters.Relax_tInc;
-        Parameters.Relax_fontRatio      = 2;                     % font size ratio : it will start at X and finish at X*fontRatio
-        Parameters.Relax_midDuration    = 2+[-1 +1];             % seconds
+        
+        Parameters.Relax_midDuration    = 2;                     % seconds
+        Parameters.Relax_jitter         = [-1 +1];               % seconds
         
         Parameters.Posture_duration     = 2;                     % seconds
         
@@ -56,15 +58,14 @@ switch S.OperationMode
         
         Parameters.nDiscard             = 0;                     % integer, number of volume to discard
         
-        Parameters.nTrials              = 2;                     % integer
+        Parameters.nTrials              = 4;                     % integer
         
 end
 
 
 %% Jitter
 
-avg_duration = mean(Parameters.Relax_midDuration);
-jitter_range = diff(Parameters.Relax_midDuration)/2;
+jitter_range = diff(Parameters.Relax_jitter)/2;
 jitter_vect  = linspace(-jitter_range, jitter_range, Parameters.nTrials);
 jitter_vect  = Shuffle(jitter_vect);
 
@@ -82,20 +83,20 @@ NextOnset = @(EP) EP.Data{end,2} + EP.Data{end,3};
 
 % --- Start ---------------------------------------------------------------
 
-EP.AddStartTime('StartTime',0);
+EP.AddStartTime('WaitForScanner',0);
 
 % --- Stim ----------------------------------------------------------------
 
-EP.AddPlanning({ 'Discard'      NextOnset(EP) Parameters.nDiscard*TR          [] })
+EP.AddPlanning({ 'DiscardVolumes' NextOnset(EP) Parameters.nDiscard*TR          [] })
 
-EP.AddPlanning({ 'Instructions' NextOnset(EP) Parameters.Instruction_duration [] })
+EP.AddPlanning({ 'Instructions'   NextOnset(EP) Parameters.Instruction_duration [] })
 
 for iTrial = 1 : Parameters.nTrials
     
     if iTrial == 1
-        relax_dur =                                                 avg_duration                       + Parameters.Relax_nDec * Parameters.Relax_tDec;
+        relax_dur =                                                 Parameters.Relax_midDuration                       + Parameters.Relax_nDec * Parameters.Relax_tDec;
     else
-        relax_dur = Parameters.Relax_nInc * Parameters.Relax_tInc + avg_duration + jitter_vect(iTrial) + Parameters.Relax_nDec * Parameters.Relax_tDec;
+        relax_dur = Parameters.Relax_nInc * Parameters.Relax_tInc + Parameters.Relax_midDuration + jitter_vect(iTrial) + Parameters.Relax_nDec * Parameters.Relax_tDec;
     end
     
     EP.AddPlanning({ 'Relax'   NextOnset(EP) relax_dur                   jitter_vect(iTrial) })
@@ -104,13 +105,13 @@ for iTrial = 1 : Parameters.nTrials
     
 end
 
-EP.AddPlanning({ 'Relax'     NextOnset(EP) Parameters.Relax_tInc         [] })
+EP.AddPlanning({ 'Relax'   NextOnset(EP) Parameters.Relax_tInc         [] })
 
-EP.AddPlanning({ 'EndOfTask' NextOnset(EP) Parameters.EndOfTask_duration [] })
+EP.AddPlanning({ 'EndText' NextOnset(EP) Parameters.EndOfTask_duration [] })
 
 % --- Stop ----------------------------------------------------------------
 
-EP.AddStopTime('StopTime',NextOnset(EP));
+EP.AddStopTime('EndOfStim',NextOnset(EP));
 
 
 %% Display

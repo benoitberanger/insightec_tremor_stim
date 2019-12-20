@@ -11,6 +11,8 @@ classdef Text < baseObject
         
         content
         
+        font_size
+        
         Xptb
         Yptb
         
@@ -28,18 +30,19 @@ classdef Text < baseObject
         % -----------------------------------------------------------------
         %                           Constructor
         % -----------------------------------------------------------------
-        function self = Text( color, content, Xptb, Yptb )
-            % obj = Text( color, content, Xptb, Yptb )
+        function self = Text( color, content, font_size, Xptb, Yptb )
+            % self = Text( color, content, font_size, Xptb, Yptb )
             
             % ================ Check input argument =======================
             
             % Arguments ?
             if nargin > 0
                 
-                self.color   = color;
-                self.content = content;
-                self.Xptb    = Xptb;
-                self.Yptb    = Yptb;
+                self.color     = color;
+                self.content   = sprintf(content);
+                self.font_size = font_size;
+                self.Xptb      = Xptb;
+                self.Yptb      = Yptb;
                 
                 % ================== Callback =============================
                 

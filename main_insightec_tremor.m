@@ -86,7 +86,7 @@ SubjectID = get(handles.edit_SubjectID,'String');
 assert(~isempty(SubjectID),' SubjectID is required ')
 
 % Prepare path
-DataPath = fullfile( fileparts(pwd), 'data', SubjectID );
+DataPath = fullfile( fileparts(pwd), 'data', SubjectID, filesep );
 
 if strcmp(SaveMode,'SaveData') && strcmp(OperationMode,'Acquisition')
     

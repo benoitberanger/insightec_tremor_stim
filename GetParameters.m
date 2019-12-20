@@ -1,6 +1,6 @@
 function [ Parameters ] = GetParameters
 % GETPARAMETERS Prepare common parameters
-global S
+% global S
 
 % if isempty(S)
 %     S.Environement = 'MRI';
@@ -75,43 +75,50 @@ Parameters.insightec_tremor.FixationCross.Color          = [255 255 255]; % [R G
 Parameters.insightec_tremor.FixationCross.PositonXRatio  = 0.5;           % Xpos = PositonXRatio * ScreenWidth
 Parameters.insightec_tremor.FixationCross.PositonYRatio  = 0.5;           % Ypos = PositonYRatio * ScreenHight
 
+%#ok<*NBRAK>
+
 % Text : Wainting for scanner
 Parameters.insightec_tremor.Text_WaitForScanner.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
 Parameters.insightec_tremor.Text_WaitForScanner.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
-Parameters.insightec_tremor.Text_WaitForScanner.Content = {
+Parameters.insightec_tremor.Text_WaitForScanner.FontSize      = 40;
+Parameters.insightec_tremor.Text_WaitForScanner.Content = [
     'Le scanner est bientôt prêt, ne ne bougez plus.'
-    };
+    ];
 
 % Text : Instructions
 Parameters.insightec_tremor.Text_Instructions.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
 Parameters.insightec_tremor.Text_Instructions.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
-Parameters.insightec_tremor.Text_Instructions.Content = {
-    'La tâche va commencer.'
-    'Lorsque vous verrez REPOS, reposez votre main sur le côté.'
-    'Lorsque vous verrez POSTURE, levez votre main dans la positon convenue.'
-    };
+Parameters.insightec_tremor.Text_Instructions.FontSize      = 40;
+Parameters.insightec_tremor.Text_Instructions.Content = [
+    'La tâche va commencer.\n'...
+    'Lorsque vous verrez REPOS, reposez votre main sur le côté.\n'...
+    'Lorsque vous verrez POSTURE, levez votre main dans la positon convenue.'...
+    ];
 
 % Text : Relax
 Parameters.insightec_tremor.Text_Relax.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
 Parameters.insightec_tremor.Text_Relax.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
-Parameters.insightec_tremor.Text_Relax.Content = {
+Parameters.insightec_tremor.Text_Relax.FontSize      = 80;   % will increased on the fly
+Parameters.insightec_tremor.Text_Relax.Content = [
     'REPOS'
-    };
+    ];
 
 % Text : Posture
 Parameters.insightec_tremor.Text_Posture.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
 Parameters.insightec_tremor.Text_Posture.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
-Parameters.insightec_tremor.Text_Posture.Content = {
+Parameters.insightec_tremor.Text_Posture.FontSize      = 80;
+Parameters.insightec_tremor.Text_Posture.Content = [
     'POSTURE'
-    };
+    ];
 
 % Text : End of task
-Parameters.insightec_tremor.Text_EndOfTask.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
-Parameters.insightec_tremor.Text_EndOfTask.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
-Parameters.insightec_tremor.Text_EndOfTask.Content = {
-    'Fin de la tâche.'
+Parameters.insightec_tremor.Text_EndText.PositonXRatio = 1/2;  % Xpos = PositonXRatio * ScreenWidth
+Parameters.insightec_tremor.Text_EndText.PositonYRatio = 1/2;  % Ypos = PositonYRatio * ScreenHight
+Parameters.insightec_tremor.Text_EndText.FontSize      = 40;
+Parameters.insightec_tremor.Text_EndText.Content = [
+    'Fin de la tâche.\n'...
     'Restez immobile, nous allons vous aider à sortir du scanner.'
-    };
+    ];
 
 
 %%%%%%%%%%%%%%
