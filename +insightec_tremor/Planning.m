@@ -8,7 +8,7 @@ end
 
 %% Paradigme
 
-TR = 1.000; % second
+TR = 1.000; % seconds
 
 Parameters.nDiscard             = 6;                     % integer, number of volume to discard
 
@@ -34,7 +34,7 @@ switch S.OperationMode
         % pass, keep main paramters
         
     case 'FastDebug'
- 
+        
         Parameters.nDiscard             = 0;                     % integer, number of volume to discard
         
         Parameters.nTrials              = 2;                     % integer
@@ -53,7 +53,7 @@ switch S.OperationMode
         Parameters.EndOfTask_duration   = 2;                     % seconds
         
     case 'RealisticDebug'
-
+        
         Parameters.nDiscard             = 0;                     % integer, number of volume to discard
         
         Parameters.nTrials              = 2;                     % integer
@@ -92,14 +92,21 @@ EP.AddPlanning({ 'Instructions' NextOnset(EP) Parameters.Instruction_duration []
 
 for iTrial = 1 : Parameters.nTrials
     
-    relax_dur = Parameters.Relax_nInc * Parameters.Relax_tInc + avg_duration + jitter_vect(iTrial) + Parameters.Relax_nDec * Parameters.Relax_tDec;
+    if iTrial == 1
+        relax_dur =                                                 avg_duration                       + Parameters.Relax_nDec * Parameters.Relax_tDec;
+    else
+        relax_dur = Parameters.Relax_nInc * Parameters.Relax_tInc + avg_duration + jitter_vect(iTrial) + Parameters.Relax_nDec * Parameters.Relax_tDec;
+    end
+    
     EP.AddPlanning({ 'Relax'   NextOnset(EP) relax_dur                   jitter_vect(iTrial) })
     
     EP.AddPlanning({ 'Posture' NextOnset(EP) Parameters.Posture_duration []                  })
     
 end
 
-EP.AddPlanning({ 'Instructions' NextOnset(EP) Parameters.EndOfTask_duration [] })
+EP.AddPlanning({ 'Relax'     NextOnset(EP) Parameters.Relax_tInc         [] })
+
+EP.AddPlanning({ 'EndOfTask' NextOnset(EP) Parameters.EndOfTask_duration [] })
 
 % --- Stop ----------------------------------------------------------------
 
