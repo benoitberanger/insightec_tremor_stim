@@ -185,7 +185,7 @@ switch get(get(handles.uipanel_EyelinkMode,'SelectedObject'),'Tag')
         assert( ~isempty(eyelink_status), 'no ''Eyelink.m'' detected in the path')
         
         % Save mode ?
-        assert( strcmp(S.SaveMode,'Save'), ' ---> Save mode should be turned on when using Eyelink <--- ')
+        assert( strcmp(S.SaveMode,'SaveData'), ' ---> Save mode should be turned on when using Eyelink <--- ')
         
         % Eyelink connected ?
         Eyelink.IsConnected
