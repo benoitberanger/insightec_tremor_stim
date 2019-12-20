@@ -129,7 +129,7 @@ try
                 nRelax = nRelax + 1;
                 
                 if nRelax == 1
-                
+                    
                     % Full Size ===========================================
                     
                     TEXT.Relax.font_size = base_font;
@@ -167,9 +167,8 @@ try
                     for i = 1 : Parameters.Relax_nDec
                         
                         TEXT.Relax.font_size = font_dec(i);
-                        TEXT.Relax.font_size
                         TEXT.Relax.Draw
-                        when = StartTime + EP.Data{evt,2} + Parameters.Relax_midDuration + Parameters.Relax_tDec * i - S.PTB.slack;
+                        when = StartTime + EP.Data{evt,2} + Parameters.Relax_midDuration + Parameters.Relax_tDec * (i-1) - S.PTB.slack;
                         Screen('DrawingFinished', S.PTB.wPtr);
                         lastFlipOnset = Screen('Flip', S.PTB.wPtr, when);
                         
@@ -177,21 +176,7 @@ try
                         
                     end
                     
-                elseif nRelax == Parameters.nTrials
-                    
-                    % just 1 small ========================================
-                    
-                    TEXT.Relax.font_size = font_dec(end);
-                    TEXT.Relax.Draw
-                    when = StartTime + EP.Data{evt,2} - S.PTB.slack;
-                    Screen('DrawingFinished', S.PTB.wPtr);
-                    lastFlipOnset = Screen('Flip', S.PTB.wPtr, when);
-                    Common.SendParPortMessage(event_name);
-                    
-                    ER.AddEvent({event_name lastFlipOnset-StartTime [] EP.Data{evt,4:end}});
-                    RR.AddEvent({event_name lastFlipOnset-StartTime [] EP.Data{evt,4:end}});
-                    
-                else % 2 : end-1
+                elseif nRelax > 1 && nRelax < Parameters.nTrials + 1  % 2 : end-1
                     
                     % Increase ============================================
                     for i = 1 : Parameters.Relax_nInc
@@ -200,9 +185,9 @@ try
                         TEXT.Relax.Draw
                         
                         if i == 1
-                            when = StartTime + EP.Data{evt+1,2} - S.PTB.slack;
+                            when = StartTime + EP.Data{evt,2} - S.PTB.slack;
                         else
-                            when = StartTime + EP.Data{evt+1,2} + Parameters.Relax_tDec * i - S.PTB.slack;
+                            when = StartTime + EP.Data{evt,2} + Parameters.Relax_tDec * (i-1) - S.PTB.slack;
                         end
                         
                         Screen('DrawingFinished', S.PTB.wPtr);
@@ -221,14 +206,14 @@ try
                     
                     TEXT.Relax.font_size = base_font;
                     TEXT.Relax.Draw
-                    when = StartTime + EP.Data{evt+1,2} + Parameters.Relax_tDec * Parameters.Relax_nDec - S.PTB.slack;
+                    when = StartTime + EP.Data{evt,2} + Parameters.Relax_tDec * Parameters.Relax_nDec - S.PTB.slack;
                     Screen('DrawingFinished', S.PTB.wPtr);
                     lastFlipOnset = Screen('Flip', S.PTB.wPtr, when);
                     
                     RR.AddEvent({event_name lastFlipOnset-StartTime [] EP.Data{evt,4:end}});
                     
-                    when = StartTime + EP.Data{evt+1,2} + Parameters.Relax_tDec * Parameters.Relax_nDec + Parameters.Relax_midDuration + EP.Get('RelaxJitter',evt) - S.PTB.slack;
-                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    when = StartTime + EP.Data{evt,2} + Parameters.Relax_tDec * Parameters.Relax_nDec + Parameters.Relax_midDuration + EP.Get('RelaxJitter',evt) - S.PTB.slack;
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     secs = lastFlipOnset;
                     while secs < when
                         
@@ -247,13 +232,13 @@ try
                     if exit_flag
                         break
                     end
-                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     
                     for i = 1 : Parameters.Relax_nDec
                         
                         TEXT.Relax.font_size = font_dec(i);
                         TEXT.Relax.Draw
-                        when = StartTime + EP.Data{evt+1,2} + Parameters.Relax_tDec * Parameters.Relax_nDec + Parameters.Relax_midDuration + Parameters.Relax_tDec * i - S.PTB.slack;
+                        when = StartTime + EP.Data{evt,2} + Parameters.Relax_tDec * Parameters.Relax_nDec + Parameters.Relax_midDuration + EP.Get('RelaxJitter',evt) + Parameters.Relax_tDec * (i-1) - S.PTB.slack;
                         Screen('DrawingFinished', S.PTB.wPtr);
                         lastFlipOnset = Screen('Flip', S.PTB.wPtr, when);
                         
@@ -261,7 +246,25 @@ try
                         
                     end
                     
-                end
+                elseif nRelax == Parameters.nTrials + 1 % the last very short one
+                    
+                    % just 1 small ========================================
+                    
+                    TEXT.Relax.font_size = font_dec(end);
+                    TEXT.Relax.Draw
+                    when = StartTime + EP.Data{evt,2} - S.PTB.slack;
+                    Screen('DrawingFinished', S.PTB.wPtr);
+                    lastFlipOnset = Screen('Flip', S.PTB.wPtr, when);
+                    Common.SendParPortMessage(event_name);
+                    
+                    ER.AddEvent({event_name lastFlipOnset-StartTime [] EP.Data{evt,4:end}});
+                    RR.AddEvent({event_name lastFlipOnset-StartTime [] EP.Data{evt,4:end}});
+                    
+                else
+                    
+                    error('WTF ?')
+                    
+                end % nRelax
                 
             case 'EndOfStim' % ---------------------------------------------
                 

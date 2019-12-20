@@ -10,23 +10,23 @@ end
 
 TR = 1.000; % seconds
 
-Parameters.nDiscard             = 6;                     % integer, number of volume to discard
+Parameters.nDiscard             = 6;       % integer, number of volume to discard
 
-Parameters.nTrials              = 20;                    % integer
+Parameters.nTrials              = 20;      % integer
 
-Parameters.Instruction_duration = 15;                    % seconds
+Parameters.Instruction_duration = 15;      % seconds
 
-Parameters.Relax_nInc           = 4;                     % integer
-Parameters.Relax_nDec           = Parameters.Relax_nInc;
-Parameters.Relax_tInc           = 0.5;                   % seconds
-Parameters.Relax_tDec           = Parameters.Relax_tInc;
-Parameters.Relax_fontRatio      = 2;                     % font size ratio : it will start at X and finish at X*fontRatio
-Parameters.Relax_midDuration    = 6;                     % seconds
-Parameters.Relax_jitter         = [-1 +1];               % seconds
+Parameters.Relax_nInc           = 4;       % integer
+Parameters.Relax_nDec           = 4;       % integer
+Parameters.Relax_tInc           = 0.5;     % seconds
+Parameters.Relax_tDec           = 0.5;     % seconds
+Parameters.Relax_fontRatio      = 2;       % font size ratio : it will start at X and finish at X*fontRatio
+Parameters.Relax_midDuration    = 6;       % seconds
+Parameters.Relax_jitter         = [-1 +1]; % seconds
 
-Parameters.Posture_duration     = 30;                    % seconds
+Parameters.Posture_duration     = 30;      % seconds
 
-Parameters.EndOfTask_duration   = 10;                    % seconds
+Parameters.EndOfTask_duration   = 10;      % seconds
 
 
 switch S.OperationMode
@@ -36,29 +36,30 @@ switch S.OperationMode
         
     case 'FastDebug'
         
-        Parameters.nDiscard             = 0;                     % integer, number of volume to discard
+        Parameters.nDiscard             = 0;       % integer, number of volume to discard
         
-        Parameters.nTrials              = 4;                     % integer
+        Parameters.nTrials              = 4;       % integer
         
-        Parameters.Instruction_duration = 1;                     % seconds
+        Parameters.Instruction_duration = 2;       % seconds
         
-        Parameters.Relax_nInc           = 4;                     % integer
-        Parameters.Relax_nDec           = Parameters.Relax_nInc;
-        Parameters.Relax_tInc           = 0.2;                   % seconds
-        Parameters.Relax_tDec           = Parameters.Relax_tInc;
+        Parameters.Relax_nInc           = 4;       % integer
+        Parameters.Relax_nDec           = 4;       % integer
+        Parameters.Relax_tInc           = 0.5;     % seconds
+        Parameters.Relax_tDec           = 0.5;     % seconds
         
-        Parameters.Relax_midDuration    = 2;                     % seconds
-        Parameters.Relax_jitter         = [-1 +1];               % seconds
+        Parameters.Relax_midDuration    = 2;       % seconds
+        Parameters.Relax_jitter         = [-1 +1]; % seconds
+        Parameters.Posture_duration     = 2;       % seconds
         
-        Parameters.Posture_duration     = 2;                     % seconds
-        
-        Parameters.EndOfTask_duration   = 2;                     % seconds
+        Parameters.EndOfTask_duration   = 2;       % seconds
         
     case 'RealisticDebug'
         
-        Parameters.nDiscard             = 0;                     % integer, number of volume to discard
+        Parameters.nDiscard             = 0;       % integer, number of volume to discard
         
-        Parameters.nTrials              = 4;                     % integer
+        Parameters.nTrials              = 4;       % integer
+        
+        Parameters.Posture_duration     = 10;      % seconds
         
 end
 
@@ -99,7 +100,11 @@ for iTrial = 1 : Parameters.nTrials
         relax_dur = Parameters.Relax_nInc * Parameters.Relax_tInc + Parameters.Relax_midDuration + jitter_vect(iTrial) + Parameters.Relax_nDec * Parameters.Relax_tDec;
     end
     
-    EP.AddPlanning({ 'Relax'   NextOnset(EP) relax_dur                   jitter_vect(iTrial) })
+    if iTrial == 1
+        EP.AddPlanning({ 'Relax'   NextOnset(EP) relax_dur []                  })
+    else
+        EP.AddPlanning({ 'Relax'   NextOnset(EP) relax_dur jitter_vect(iTrial) })
+    end    
     
     EP.AddPlanning({ 'Posture' NextOnset(EP) Parameters.Posture_duration []                  })
     

@@ -17,14 +17,13 @@ switch S.ParPort
         
 end
 
+
 %% Prepare messages
 
-msg.Rest            = 1;
-msg.Real_Left       = 2;
-msg.Real_Right      = 3;
-msg.Imaginary_Left  = 4;
-msg.Imaginary_Right = 5;
-msg.Instruction     = 6;
+msg.Instructions = 88;
+msg.Relax        = 12;
+msg.Posture      = 11;
+msg.EndText      = 99;
 
 
 %% Finalize
@@ -33,5 +32,6 @@ msg.Instruction     = 6;
 msg.duration    = 0.003; % seconds
 
 ParPortMessages = msg; % shortcut
+
 
 end % function

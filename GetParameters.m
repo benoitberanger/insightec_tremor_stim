@@ -131,31 +131,31 @@ Parameters.Keybinds.TTL_t_ASCII          = KbName('t'); % MRI trigger has to be 
 Parameters.Keybinds.Stop_Escape_ASCII    = KbName('ESCAPE');
 
 % switch S.Task
-%     
+%
 %     case 'insightec_tremor'
-%         
+%
 %         switch S.Environement
-%             
+%
 %             case 'MRI'
-%                 
+%
 %                 Parameters.Fingers.Left  = KbName('e'); % Index finger
 %                 Parameters.Fingers.Right = KbName('b'); % Index finger
-% 
+%
 %             case 'Practice'
-%                 
+%
 %                 Parameters.Fingers.Left     = KbName('LeftArrow' );
 %                 Parameters.Fingers.Right    = KbName('RightArrow');
-%                 
+%
 %         end
-%         
+%
 %         Parameters.Fingers.Names = {'Left' 'Right'};
-%         
+%
 %     case {'insightec_tremor' 'TryLikertScale' }
-%         
+%
 %         switch S.Environement
-%             
+%
 %             case 'MRI'
-%                 
+%
 %                 switch S.Side
 %                     case 'Left'
 %                         Parameters.Fingers.Right    = KbName('e'); % Index finger
@@ -166,17 +166,17 @@ Parameters.Keybinds.Stop_Escape_ASCII    = KbName('ESCAPE');
 %                         Parameters.Fingers.Validate = KbName('y'); % Middle finger
 %                         Parameters.Fingers.Right    = KbName('g'); % Ring finger
 %                 end
-% 
+%
 %             case 'Practice'
-%                 
+%
 %                 Parameters.Fingers.Left     = KbName('LeftArrow' );
 %                 Parameters.Fingers.Validate = KbName('DownArrow' );
 %                 Parameters.Fingers.Right    = KbName('RightArrow');
-%                 
+%
 %         end
-%         
+%
 %         Parameters.Fingers.Names = {'Left' 'Validate' 'Right'};
-% 
+%
 % end
 
 

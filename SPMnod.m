@@ -13,7 +13,7 @@ try
         'Instructions'
         'Relax'
         'Posture'
-        'EndMessage'
+        'EndText'
         };
     
     % 'onsets' & 'durations' for SPM
@@ -26,10 +26,12 @@ try
     
     %% Onsets building
     
-    for event = 1:size(EventData,1)
+    for event = 1 : size(EventData,1)
         
-        where         = find(strcmp(EventData{event,1}, names));
-        onsets{where} = [onsets{where} ; EventData{event,2}];
+        where = find(strcmp(EventData{event,1}, names));
+        if ~isempty(where)
+            onsets{where} = [onsets{where} ; EventData{event,2}];
+        end
         
     end
     
@@ -39,8 +41,10 @@ try
     
     for event = 1:size(EventData,1)
         
-        where            = find(strcmp(EventData{event,1}, names));
-        durations{where} = [ durations{where} ; EventData{event+1,2}-EventData{event,2}] ;
+        where = find(strcmp(EventData{event,1}, names));
+        if ~isempty(where)
+            durations{where} = [ durations{where} ; EventData{event+1,2}-EventData{event,2}] ;
+        end
         
     end
     
